@@ -34,7 +34,7 @@ services:
     restart: unless-stopped
 
   backend:
-   image: ghcr.io/wendao-liu/file-manager-backend:main
+    image: ghcr.io/wendao-liu/file-manager-backend:main
     container_name: backend
     env_file:
       - .env
