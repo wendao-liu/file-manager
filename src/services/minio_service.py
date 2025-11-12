@@ -1,9 +1,10 @@
-from typing import BinaryIO
+from typing import Optional
 from minio import Minio
 from minio.error import S3Error  # 正确的导入路径
 from fastapi import HTTPException
 from datetime import timedelta
 from fastapi import Depends
+from urllib.parse import urlparse, urlunparse
 from src.core.config import get_settings
 
 settings = get_settings()
@@ -17,12 +18,37 @@ class MinioService:
             secure=settings.MINIO_SECURE
         )
         self.bucket_name = settings.MINIO_BUCKET_NAME
+        self.external_url = settings.MINIO_EXTERNAL_URL
+        self._presign_client = self._build_presign_client()
         self._ensure_bucket_exists()
 
     def _ensure_bucket_exists(self):
         """确保存储桶存在"""
         if not self.client.bucket_exists(self.bucket_name):
             self.client.make_bucket(self.bucket_name)
+
+    def _build_presign_client(self) -> Optional[Minio]:
+        """
+        当配置了外部访问域名时，使用该域名生成预签名URL，
+        避免直接替换host导致签名不匹配。
+        """
+        if not self.external_url:
+            return None
+
+        parsed = urlparse(self.external_url)
+        endpoint = parsed.netloc or parsed.path
+
+        if not endpoint:
+            return None
+
+        secure = parsed.scheme == "https" if parsed.scheme else settings.MINIO_SECURE
+
+        return Minio(
+            endpoint,
+            access_key=settings.MINIO_ACCESS_KEY,
+            secret_key=settings.MINIO_SECRET_KEY,
+            secure=secure
+        )
 
     async def upload_file(self, path: str, content: bytes, content_type: str):
         """上传文件到MinIO"""
@@ -61,11 +87,13 @@ class MinioService:
             # 将秒数转换为 timedelta 对象
             expiry = timedelta(seconds=expires)
             # 生成预签名URL
-            url = self.client.presigned_get_object(
+            presign_client = self._presign_client or self.client
+            url = presign_client.presigned_get_object(
                 self.bucket_name,
                 object_path,
                 expires=expiry
             )
+            
             return url
         except Exception as e:
             raise HTTPException(

@@ -7,6 +7,7 @@ from datetime import datetime, timedelta, timezone
 import os
 import urllib.parse
 from sqlalchemy import select, and_, or_
+from sqlalchemy.exc import IntegrityError
 import uuid
 import random
 import string
@@ -32,6 +33,10 @@ async def upload_document(
     if not current_user.is_admin:
         raise APIException(status_code=403, message="Not authorized")
 
+    # 验证文件名
+    if not file.filename:
+        raise APIException(status_code=400, message="Filename is required")
+    
     # 计算文件MD5
     md5_hash = hashlib.md5()
     content = await file.read()
@@ -40,23 +45,17 @@ async def upload_document(
 
     # 获取文件后缀
     _, file_extension = os.path.splitext(file.filename)
-
-    # 检查文件是否已存在
-    existing_doc = await document_service.get_by_md5_and_user(
-        db, file_md5, current_user.id
-    )
-    if existing_doc:
-        raise APIException(status_code=400, message="File already exists")
-
+    
     # 对用户email进行hash
     email_hash = hashlib.md5(current_user.email.encode()).hexdigest()[:8]
 
-    # 构建文件路径 (包含文件后缀)
+    # 生成唯一的 file_uuid 并构建文件路径 (包含文件后缀)
     current_date = datetime.now()
+    file_uuid = str(uuid.uuid4())
     minio_path = (
         f"{current_date.strftime('%Y/%m/%d')}/"  # 年/月/日
         f"{email_hash}/"                         # email的短hash
-        f"{file_md5}{file_extension}"           # MD5 + 原始文件后缀
+        f"{file_uuid}{file_extension}"           # 唯一UUID + 原始文件后缀
     )
     
     try:
@@ -70,7 +69,7 @@ async def upload_document(
             file_size=len(content),
             mime_type=file.content_type,
             minio_path=minio_path,   # MinIO中的路径包含后缀
-            file_uuid=file_md5,      # 使用MD5作为UUID
+            file_uuid=file_uuid,     # 使用UUID确保唯一性
             uploader_id=current_user.id
         )
 
@@ -79,7 +78,23 @@ async def upload_document(
             data=DocumentResponse.model_validate(doc),
             message="File uploaded successfully"
         )
+    except IntegrityError as e:
+        # 捕获数据库唯一性约束错误
+        await db.rollback()
+        error_msg = str(e.orig) if hasattr(e, 'orig') else str(e)
+        if 'file_uuid' in error_msg or 'unique' in error_msg.lower():
+            raise APIException(
+                status_code=400,
+                message="File UUID already exists, please try again",
+                details={"error": "Database constraint violation"}
+            )
+        raise APIException(
+            status_code=400,
+            message="Database constraint violation",
+            details={"error": error_msg}
+        )
     except Exception as e:
+        await db.rollback()
         raise APIException(
             status_code=500,
             message="Error uploading file",

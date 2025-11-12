@@ -2,14 +2,15 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:latest
+    # 对象关系型数据库
+    image: postgres:16
     container_name: postgres
     environment:
       POSTGRES_DB: doc_management
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 123456
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - type: bind
         source: ~/middleware/postgres/data
@@ -17,15 +18,15 @@ services:
     restart: unless-stopped
 
   minio:
-    image: minio/minio
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
     container_name: minio
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: root
       MINIO_ROOT_PASSWORD: 12345678
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - '9000:9000'
+      - '9001:9001'
     volumes:
       - type: bind
         source: ~/middleware/minio/data
@@ -33,22 +34,22 @@ services:
     restart: unless-stopped
 
   backend:
-    image: ghcr.io/simongino/file-manager-backend:main
+   image: ghcr.io/wendao-liu/file-manager-backend:main
     container_name: backend
     env_file:
       - .env
     ports:
-      - "8000:8000"
+      - '8000:8000'
     depends_on:
       - postgres
       - minio
     restart: unless-stopped
 
   frontend:
-    image: ghcr.io/simongino/file-manager-frontend:main
+    image: ghcr.io/wendao-liu/file-manager-frontend:main
     container_name: frontend
     ports:
-      - "3001:80"
+      - '3001:80'
     depends_on:
       - backend
     restart: unless-stopped

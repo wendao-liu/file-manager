@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
       <Space direction="vertical" size={16}>
         <Space align="center" size={8}>
           <a
-            href="https://github.com/SimonGino/file-manager"
+            href="https://github.com/wendao-liu/file-manager"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
         <div>
           <span>File Manager ©2024 Created by </span>
           <a
-            href="https://github.com/SimonGino"
+            href="https://github.com/wendao-liu"
             target="_blank"
             rel="noopener noreferrer"
             style={{
