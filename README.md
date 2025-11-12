@@ -2,10 +2,10 @@
 
 [English](README.md) | [中文](README_zh.md)
 
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/simongino/file-manager/docker-build.yml?branch=main)](https://github.com/simongino/file-manager/actions)
-[![GitHub license](https://img.shields.io/github/license/simongino/file-manager)](https://github.com/simongino/file-manager/blob/main/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/simongino/file-manager)](https://github.com/simongino/file-manager/stargazers)
-[![GitHub issues](https://img.shields.io/github/issues/simongino/file-manager)](https://github.com/simongino/file-manager/issues)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/wendao-liu/file-manager/docker-build.yml?branch=main)](https://github.com/wendao-liu/file-manager/actions)
+[![GitHub license](https://img.shields.io/github/license/wendao-liu/file-manager)](https://github.com/wendao-liu/file-manager/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/wendao-liu/file-manager)](https://github.com/wendao-liu/file-manager/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/wendao-liu/file-manager)](https://github.com/wendao-liu/file-manager/issues)
 
 A modern file management system built with FastAPI and React, featuring secure file sharing, access control, and real-time updates.
 

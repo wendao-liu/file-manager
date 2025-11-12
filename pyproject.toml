@@ -3,7 +3,7 @@ name = "file-manager"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [
-    {name = "SimonGino", email = "rwjeek@gmail.com"},
+    {name = "wendao-liu", email = "lhytefe@163.com"},
 ]
 dependencies = [
     "fastapi>=0.104.0",
