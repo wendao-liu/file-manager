@@ -54,7 +54,7 @@ mkdir -p ~/middleware/minio/data
 
 3. 在根目录创建 `.env` 文件：
 ```env
-DATABASE_URL=postgresql+asyncpg://root:123456@postgres:5432/doc_management
+DATABASE_URL=postgresql+asyncpg://root:123456@postgres:5433/doc_management
 MINIO_ENDPOINT=minio:9000
 MINIO_ACCESS_KEY=your_access_key
 MINIO_SECRET_KEY=your_secret_key
