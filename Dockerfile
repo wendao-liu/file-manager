@@ -15,10 +15,10 @@ RUN pdm install --prod --no-lock --no-editable
 
 # Set environment variables
 ENV PYTHONPATH=/app/src
-ENV PORT=81000
+ENV PORT=8002
 
 # Expose the port
-EXPOSE 81000
+EXPOSE 8002
 
 # Start the application
-CMD ["pdm", "run", "python", "-m", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "81000"] 
+CMD ["pdm", "run", "python", "-m", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8002"] 

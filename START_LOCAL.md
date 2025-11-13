@@ -57,8 +57,8 @@ docker-compose -f docker/docker-compose.yml logs -f frontend
 
 6. **访问应用**
 - 前端：http://localhost:31000
-- 后端 API：http://localhost:81000
-- API 文档（Swagger）：http://localhost:81000/docs
+- 后端 API：http://localhost:8002
+- API 文档（Swagger）：http://localhost:8002/docs
 - MinIO 控制台：http://localhost:9001
   - 用户名：root
   - 密码：12345678
@@ -112,10 +112,10 @@ pdm install
 启动后端服务：
 ```bash
 # 在项目根目录执行
-pdm run python -m uvicorn src.main:app --reload --host 0.0.0.0 --port 81000
+pdm run python -m uvicorn src.main:app --reload --host 0.0.0.0 --port 8002
 ```
 
-后端将在 http://localhost:81000 运行
+后端将在 http://localhost:8002 运行
 
 #### 3. 配置前端
 
@@ -134,8 +134,8 @@ npm run dev
 #### 4. 验证
 
 - 前端：http://localhost:5173
-- 后端 API：http://localhost:81000
-- API 文档：http://localhost:81000/docs
+- 后端 API：http://localhost:8002
+- API 文档：http://localhost:8002/docs
 - MinIO 控制台：http://localhost:9001
 
 ---
@@ -153,7 +153,7 @@ docker ps
 
 **检查后端 API：**
 ```bash
-curl http://localhost:81000/docs
+curl http://localhost:8002/docs
 ```
 
 **检查前端：**
@@ -168,7 +168,7 @@ curl http://localhost:81000/docs
 
 ### 3. 检查 API 文档
 
-访问 http://localhost:81000/docs 查看 Swagger UI，可以：
+访问 http://localhost:8002/docs 查看 Swagger UI，可以：
 - 查看所有可用的 API 端点
 - 测试 API 调用
 - 查看请求/响应格式

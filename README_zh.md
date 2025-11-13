@@ -69,7 +69,7 @@ docker-compose up -d
 
 5. 访问应用：
 - 前端：http://localhost:3000
-- 后端 API：http://localhost:81000
+- 后端 API：http://localhost:8002
 - MinIO 控制台：http://localhost:9001
 
 ## 开发设置
@@ -108,8 +108,8 @@ npm run dev
 ## API 文档
 
 后端服务运行后，可以通过以下地址访问 API 文档：
-- Swagger UI：http://localhost:81000/docs
-- ReDoc：http://localhost:81000/redoc
+- Swagger UI：http://localhost:8002/docs
+- ReDoc：http://localhost:8002/redoc
 
 ## Docker 镜像
 

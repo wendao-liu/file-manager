@@ -39,7 +39,7 @@ services:
     env_file:
       - .env
     ports:
-      - '81000:81000'
+      - '8002:8002'
     depends_on:
       - postgres
       - minio

@@ -74,7 +74,7 @@ docker-compose up -d
 
 5. Access the application:
 - Frontend: http://localhost:3000
-- Backend API: http://localhost:81000
+- Backend API: http://localhost:8002
 - MinIO Console: http://localhost:9001
 
 ## Development Setup
@@ -113,8 +113,8 @@ npm run dev
 ## API Documentation
 
 Once the backend is running, you can access the API documentation at:
-- Swagger UI: http://localhost:81000/docs
-- ReDoc: http://localhost:81000/redoc
+- Swagger UI: http://localhost:8002/docs
+- ReDoc: http://localhost:8002/redoc
 
 ## Docker Images
 
