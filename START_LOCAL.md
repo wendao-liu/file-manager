@@ -26,7 +26,7 @@ cp .env.example .env
 
 然后编辑 `.env` 文件，确保配置正确：
 ```env
-DATABASE_URL=postgresql+asyncpg://root:123456@postgres:5433/doc_management
+DATABASE_URL=postgresql+asyncpg://root:123456@postgres:5432/doc_management
 MINIO_ENDPOINT=minio:9000
 MINIO_ACCESS_KEY=root
 MINIO_SECRET_KEY=12345678

@@ -10,7 +10,7 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 123456
     ports:
-      - '5433:5433'
+      - '5433:5432'
     volumes:
       - type: bind
         source: ~/middleware/postgres/data
